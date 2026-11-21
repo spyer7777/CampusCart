@@ -83,7 +83,9 @@ npm run start      # Serve a production build
 
 ## Deploy
 
-Deploy to a host that supports Next.js. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to the host’s environment variables. Then add the deployed site URL to Supabase **Authentication → URL Configuration** as the Site URL and an allowed redirect URL.
+Deploy to a host that supports Next.js. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to the host’s **build-time** environment variables, then rebuild. For Cloudflare Workers Builds, use **Workers & Pages → your Worker → Settings → Build → Build Variables and Secrets**; Next.js `NEXT_PUBLIC_` values must be available while the app is built. See the [Cloudflare OpenNext guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/opennext/).
+
+Then add the deployed site URL to Supabase **Authentication → URL Configuration** as the Site URL and an allowed redirect URL.
 
 ## Publish this project to GitHub
 

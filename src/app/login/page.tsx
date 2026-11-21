@@ -12,6 +12,9 @@ import { createClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const router = useRouter()
+  const supabaseConfigured = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  )
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -43,6 +46,11 @@ export default function LoginPage() {
             <CardTitle>Sign in to CampusCart</CardTitle>
           </CardHeader>
           <CardContent>
+            {!supabaseConfigured && (
+              <p role="alert" className="mb-4 rounded-xl border border-amber-200/20 bg-amber-200/[0.06] p-3 text-sm text-amber-100/80">
+                Sign-in is not configured for this deployment. Add the Supabase URL and publishable key to the hosting environment, then redeploy.
+              </p>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 id="email"
@@ -64,7 +72,7 @@ export default function LoginPage() {
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
               
-              <Button type="submit" className="w-full" loading={loading}>
+              <Button type="submit" className="w-full" loading={loading} disabled={!supabaseConfigured}>
                 Sign in
               </Button>
             </form>

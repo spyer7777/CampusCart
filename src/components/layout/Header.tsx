@@ -17,7 +17,13 @@ export function Header({ user }: HeaderProps) {
 
   useEffect(() => {
     document.documentElement.classList.remove('light-mode')
-    const supabase = createClient()
+    let supabase: ReturnType<typeof createClient>
+    try {
+      supabase = createClient()
+    } catch {
+      // Keep public pages usable when deployment environment variables are missing.
+      return
+    }
     let active = true
     const setFromAuth = (authUser: { id: string; email?: string; created_at: string; user_metadata?: Record<string, unknown> } | null) => {
       if (!active) return
